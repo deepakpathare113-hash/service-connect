@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service connect – Book Local Services Online</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        header {
+            background-color: #0a7cff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #2e72bb;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 15px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #0a7cff;
+        }
+
+        .form-section {
+            margin-top: 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #0a7cff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #004a99;
+        }
+
+        footer {
+            background-color: #004a99;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Service Connect</h1>
+    <p>Book Trusted Local Services Anytime</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="services page.html"> Go to Services page</a>
+  <a href="booking page.html"> Go to Booking page</a>
+  <a href="login page.html">Go to login page</a>
+
+<div class="container">
+    <h2 id="services">Popular Services</h2>
+
+    <div class="services">
+        <div class="card">
+            <div class="card-icon">👨‍⚕️</div>
+            <h3>Doctor</h3>
+            <p>Online and in-person medical consultations</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🔧</div>
+            <h3>Plumber</h3>
+            <p>Water leakage & fitting services</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">⚡</div>
+            <h3>Electrician</h3>
+            <p>Electrical repair & installation</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🪑</div>
+            <h3>Carpenter</h3>
+            <p>Furniture repair & making</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">💇‍♀️</div>
+            <h3>Salon</h3>
+            <p>Hair styling and makeup services</p>
+        </div>
+
+        <div class="card">
+            <div class="card-icon">🧹</div>
+            <h3>Cleaning</h3>
+            <p>Professional home & office cleaning</p>
+        </div>
+    </div>
+
+    <div class="cta-buttons">
+        <a href="booking.html" class="btn btn-primary">📅 Book an Appointment Now</a>
+        <a href="services.html" class="btn btn-secondary">📋 View All Services</a>
+    </div>
+
+    <div class="form-section" id="book">
+        <h2>Quick Booking</h2>
+        <div id="message" class="message"></div>
+
+        <form onsubmit="event.preventDefault(); quickBook();">
+            <div class="form-group">
+                <label for="name">Your Name *</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" placeholder="Your mobile number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="service">Select Service *</label>
+                <select id="service" required>
+                    <option value="">-- Select a Service --</option>
+                    <option value="Doctor">👨‍⚕️ Doctor</option>
+                    <option value="Plumber">🔧 Plumber</option>
+                    <option value="Electrician">⚡ Electrician</option>
+                    <option value="Carpenter">🪑 Carpenter</option>
+                    <option value="Salon">💇‍♀️ Salon</option>
+                    <option value="Cleaning">🧹 Cleaning</option>
+                    <option value="AC Repair">❄️ AC Repair</option>
+                    <option value="Other">✋ Other</option>
+                </select>
+            </div>
+
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+
+
+
+
+</div>
+
+<footer id="contact">
+    <p>&copy; 2026 Service Connect | All Rights Reserved</p>
+    <p>Email: support@serviceconnect.com | Phone: +91-XXXX-XXXX-XX</p>
+    <p>Your trusted platform for local services</p>
+</footer>
+
+<script>
+    async function quickBook() {
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const service = document.getElementById("service").value;
+
+        try {
+            const response = await fetch("http://localhost:5000/api/bookings", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, phone, service, description: "", date: new Date().toISOString().split('T')[0] })
+            });
+
+            const data = await response.json();
+            const messageDiv = document.getElementById("message");
+
+            if (response.ok) {
+                messageDiv.className = "message success";
+                messageDiv.textContent = "✓ " + (data.message || "Booking submitted successfully!");
+                messageDiv.style.display = "block";
+                document.querySelector("form").reset();
+            } else {
+                messageDiv.className = "message error";
+                messageDiv.textContent = "✗ " + (data.error || "Booking failed");
+                messageDiv.style.display = "block";
+            }
+        } catch (error) {
+            console.error(error);
+            const messageDiv = document.getElementById("message");
+            messageDiv.className = "message error";
+            messageDiv.textContent = "✗ Error connecting to server. Backend may not be running.";
+            messageDiv.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

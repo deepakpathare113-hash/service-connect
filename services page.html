@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Attractive Services Page</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Background */
+body{
+    min-height:100vh;
+    background: linear-gradient(120deg, #89f7fe, #66a6ff);
+}
+
+/* Navbar */
+.navbar{
+    padding:15px 40px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+}
+
+.navbar h1{
+    color:#fff;
+}
+
+/* Container */
+.container{
+    padding:50px;
+}
+
+/* Title */
+.container h2{
+    text-align:center;
+    color:#fff;
+    margin-bottom:40px;
+    font-size:32px;
+}
+
+/* Services Grid */
+.services{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap:25px;
+}
+
+/* Card */
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform: translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+/* Card Text */
+.card h3{
+    color:#333;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#666;
+    margin-bottom:20px;
+}
+
+/* Button */
+.card button{
+    background: linear-gradient(120deg, #66a6ff, #89f7fe);
+    border:none;
+    padding:12px 30px;
+    border-radius:30px;
+    color:#fff;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.card button:hover{
+    transform: scale(1.05);
+    opacity:0.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h1>Service Connect</h1>
+</div>
+
+<div class="container">
+    <h2>Our Services</h2>
+
+    <div class="services">
+        <div class="card">
+            <h3>Plumber</h3>
+            <p>Available in Pune</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card">
+            <h3>Electrician</h3>
+            <p>Available in Mumbai</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card">
+            <h3>Doctor</h3>
+            <p>Online Consultation</p>
+            <button>Book Now</button>
+        </div>
+
+        <div class="card">
+            <h3>Carpenter</h3>
+            <p>Available in Pune</p>
+            <button>Book Now</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+

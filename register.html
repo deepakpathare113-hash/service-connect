@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Service Connect</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(120deg, #00c6ff, #0072ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: #ffffff;
+            width: 380px;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-container input,
+        .form-container select {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .form-container input:focus,
+        .form-container select:focus {
+            border-color: #0072ff;
+            box-shadow: 0 0 6px rgba(0, 114, 255, 0.4);
+            outline: none;
+        }
+
+        .form-container select {
+            cursor: pointer;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 18px;
+            background: linear-gradient(120deg, #00c6ff, #0072ff);
+            color: #fff;
+            font-size: 17px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-container button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        .form-container p {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .form-container p a {
+            color: #0072ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-container p a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Create Account</h2>
+
+    <div id="message" class="message"></div>
+
+    <form onsubmit="event.preventDefault(); registerUser();">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password (min 6 chars)" minlength="6" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+
+        <select id="role" required>
+            <option value="">Select Role</option>
+            <option value="customer">Customer</option>
+            <option value="service_provider">Service Provider</option>
+        </select>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="login.html">Login here</a></p>
+    <p><a href="index.html">Back to Home</a></p>
+</div>
+
+<script>
+    async function registerUser() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const phone = document.getElementById("phone").value;
+        const role = document.getElementById("role").value;
+
+        try {
+            const response = await fetch("http://localhost:5000/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, password, phone, role })
+            });
+
+            const data = await response.json();
+            const messageDiv = document.getElementById("message");
+
+            if (response.ok) {
+                messageDiv.className = "message success";
+                messageDiv.textContent = data.message;
+                messageDiv.style.display = "block";
+                document.querySelector("form").reset();
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1500);
+            } else {
+                messageDiv.className = "message error";
+                messageDiv.textContent = data.error || "Registration failed";
+                messageDiv.style.display = "block";
+            }
+        } catch (error) {
+            console.error(error);
+            const messageDiv = document.getElementById("message");
+            messageDiv.className = "message error";
+            messageDiv.textContent = "Error connecting to server";
+            messageDiv.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>
